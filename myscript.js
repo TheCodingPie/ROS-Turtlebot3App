@@ -1,10 +1,43 @@
-var ros = new ROSLIB.Ros({
-      url : 'ws://localhost:9090'
-});
+ let ros;
 
-ros.on('connection', ()=> {
-    console.log('Connected to websocket server.');
-});
+ poveziSeNaWebSocketServer=()=> {
+    let webSocketAddress = document.getElementById("websocket").value;
+    
+    if(webSocketAddress=="")
+    {
+    console.log("prazno je")
+      return;
+    }      
+    ros = new ROSLIB.Ros({
+          //url : 'ws://localhost:9090'
+          url : 'ws://' + webSocketAddress
+    });
+
+    ros.on('connection', ()=> {
+      console.log('Uspesna konekcija ka websocket serveru.');
+    });
+
+    ros.on('error', ()=> {
+      console.log('Greska prilikom konekcije, proverite ip i port za websocket server.');
+    });
+
+ }
+
+napraviPoruku=(lx,ly,lz,ax,ay,az)=>{
+  return new ROSLIB.Message({
+    linear : {
+      x : lx,
+      y : ly,
+      z : lz
+    },
+    angular : {
+      x : ax,
+      y : ay,
+      z : az
+    } 
+  });
+
+}
 
 uzmiTopic=() => {
   return  new ROSLIB.Topic({
@@ -12,82 +45,37 @@ uzmiTopic=() => {
       name : '/cmd_vel',
       messageType : 'geometry_msgs/Twist'
     });
-}
+ }
 
 napred=()=> {
-      var topic = uzmiTopic();
+      let topic = uzmiTopic();
 
-      var napred = new ROSLIB.Message({
-            linear : {
-              x : 0.3,
-              y : 0.0,
-              z : 0.0
-            },
-            angular : {
-              x : 0.0,
-              y : 0.0,
-              z : 0.0
-            }
-          });
+      let napred = napraviPoruku(0.3,0,0,0,0,0);
 
       topic.publish(napred);
-}
+  }
 
 nazad=()=> {
-    var topic = uzmiTopic();
+    let topic = uzmiTopic();
 
-    var nazad = new ROSLIB.Message({
-          linear : {
-            x : -0.3,
-            y : 0.0,
-            z : 0.0
-          },
-          angular : {
-            x : 0.0,
-            y : 0.0,
-            z : 0.0
-          }
-        });
+    let nazad = napraviPoruku(-0.3,0,0,0,0,0);
 
     topic.publish(nazad);
-}
-
+  }
 
  rotiraj=()=> {
-      var topic = uzmiTopic();
+      let topic = uzmiTopic();
 
-      var rotiraj = new ROSLIB.Message({
-            linear : {
-              x : 0.0,
-              y : 0.0,
-              z : 0.0
-            },
-            angular : {
-              x : 0.0,
-              y : 0.0,
-              z : 0.3
-            } 
-          });
+      let rotiraj = napraviPoruku(0,0,0,0,0,0.3);
 
       topic.publish(rotiraj);
-}
+  }
 
  stop=()=> {
-      var topic = uzmiTopic();
+      let topic = uzmiTopic();
 
-      var stop = new ROSLIB.Message({
-            linear : {
-              x : 0.0,
-              y : 0.0,
-              z : 0.0
-            },
-            angular : {
-              x : 0.0,
-              y : 0.0,
-              z : 0.0
-            }
-          });
+      let stop = napraviPoruku(0,0,0,0,0,0);
 
       topic.publish(stop);
-}
+  }
 

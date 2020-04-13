@@ -1,15 +1,23 @@
+
 <html>
 	<head>
+    <meta charset="UTF-8">
 	<script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
  	<script src="myscript.js"></script> 
 	</head>
 	<body>
 
-	<h1>Hello ros!</h1>
+  <h1>Hello ros!</h1>
+
+ Adresa websocket servera: <input type="text" id="websocket" value="" placeholder="ip:port">
+  <button type="button" onclick="poveziSeNaWebSocketServer()">Povezi se</button>
+
+  <div>
 	<button type="button" onclick="napred()">Napred</button>
 	<button type="button" onclick="nazad()">Nazad</button>
 	<button type="button" onclick="rotiraj()">Rotiraj</button>
 	<button type="button" onclick="stop()">Stop</button>
-	</body>
+  </div>
+</body>
 
 </html>
