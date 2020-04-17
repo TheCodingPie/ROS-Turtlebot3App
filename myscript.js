@@ -1,11 +1,13 @@
  let ros;
-
+ let MAP_HEIGHT = 700;
+ let MAP_WIDTH = 800;
+ 
  poveziSeNaWebSocketServer=()=> {
     let webSocketAddress = document.getElementById("websocket").value;
     
     if(webSocketAddress=="")
     {
-    console.log("prazno je")
+    console.log("Unesite adresu websocketa")
       return;
     }      
     ros = new ROSLIB.Ros({
@@ -14,7 +16,12 @@
     });
 
     ros.on('connection', ()=> {
-      console.log('Uspesna konekcija ka websocket serveru.');
+     
+     let divToAdd= document.getElementById("connectionStatus");
+      let p = document.createElement("p");  
+       p.innerHTML="Uspesna konekcija";
+       p.setAttribute('class', 'alert alert-success');
+      divToAdd.appendChild(p);
     });
 
     ros.on('error', ()=> {
@@ -82,12 +89,13 @@ nazad=()=> {
 
       topic.publish(stop);
   }
+  
   prikaziMapu=()=>{
-  // Create the main viewer.
+  
   var viewer = new ROS2D.Viewer({
     divID : 'map',
-    width : 608,
-    height : 550
+    width : MAP_WIDTH,
+    height : MAP_HEIGHT
   });
 
   // Setup the map client.
@@ -99,7 +107,13 @@ nazad=()=> {
   });
   // Scale the canvas to fit to the map
   gridClient.on('change', ()=> {
+ 
+
     viewer.scaleToDimensions(gridClient.currentGrid.width, gridClient.currentGrid.height);
     viewer.shift(gridClient.currentGrid.pose.position.x, gridClient.currentGrid.pose.position.y);
+   
   });
-}
+
+ }
+
+
