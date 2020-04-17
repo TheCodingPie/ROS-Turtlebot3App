@@ -5,7 +5,7 @@
     
     if(webSocketAddress=="")
     {
-    console.log("prazno je")
+    console.log("Unesite adresu")
       return;
     }      
     ros = new ROSLIB.Ros({
@@ -14,7 +14,7 @@
     });
 
     ros.on('connection', ()=> {
-      console.log('Uspesna konekcija ka websocket serveru.');
+      console.log('Uspesna konekcija.');
     });
 
     ros.on('error', ()=> {
