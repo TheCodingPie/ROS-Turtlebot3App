@@ -1,13 +1,27 @@
  let ros;
  let MAP_HEIGHT = 700;
  let MAP_WIDTH = 800;
+ let navButtons=[];
+
+ init=()=>{
+    
+    document.getElementById("websocket").value="";
+    document.getElementById("websocket").innerHTML="";
+    navButtons=document.getElementsByClassName("navButtons");
+    for(let i=0;i<navButtons.length;i++)
+        navButtons[i].disabled=true;
  
- poveziSeNaWebSocketServer=()=> {
+ }
+
+  poveziSeNaWebSocketServer=()=> {
+
     let webSocketAddress = document.getElementById("websocket").value;
     
     if(webSocketAddress=="")
     {
-    console.log("Unesite adresu websocketa")
+      let pToremove= document.getElementById("pDanger");
+      if(pToremove===null)
+          praznoPoljePoruka();
       return;
     }      
     ros = new ROSLIB.Ros({
@@ -15,24 +29,65 @@
           url : 'ws://' + webSocketAddress
     });
 
-    ros.on('connection', ()=> {
-     
-     let divToAdd= document.getElementById("connectionStatus");
-      let p = document.createElement("p");  
-       p.innerHTML="Uspesna konekcija";
-       p.setAttribute('class', 'alert alert-success');
-      divToAdd.appendChild(p);
-    });
+    ros.on('connection',uspesnaKonekcija);
 
-    ros.on('error', ()=> {
-      console.log('Greska prilikom konekcije, proverite ip i port za websocket server.');
-    });
+    ros.on('error', neuspesnaKonekcijaPoruka);
 
     ros.on('close', ()=> {
       console.log('Zatvorena konekcija ka websocket serveru.');
     });
 
  }
+
+ praznoPoljePoruka=()=>
+ {
+   let divToAdd= document.getElementById("connectionStatus");
+   let p = document.createElement("p");  
+   p.innerHTML="Unesite ip i port webSocket-a";
+   p.setAttribute('class', 'alert alert-danger');
+   p.setAttribute('id', 'pDanger');
+   divToAdd.appendChild(p);
+ }
+
+ uspesnaKonekcijaPoruka=(divToAdd)=>{
+  let pError= document.getElementById("pError");
+  if(pError)
+    divToAdd.removeChild(pError);
+   let p = document.createElement("p");  
+   p.innerHTML="Uspesna konekcija";
+   p.setAttribute('class', 'alert alert-success');
+   p.setAttribute('id', 'pSuccess');
+   divToAdd.appendChild(p);
+
+ }
+ neuspesnaKonekcijaPoruka=()=>{
+   let pError= document.getElementById("pError");
+   if(pError)
+     return;
+   let divToAdd= document.getElementById("connectionStatus");
+   let p = document.createElement("p");  
+   p.innerHTML="Neuspesna konekcija, proverite ip i port";
+   p.setAttribute('class', 'alert alert-danger');
+   p.setAttribute('id', 'pError');
+   divToAdd.appendChild(p);
+
+ }
+
+ uspesnaKonekcija= ()=> {
+   let divToAdd= document.getElementById("connectionStatus");
+   let pToremove= document.getElementById("pDanger");
+   
+ if(pToremove!==null)
+       divToAdd.removeChild(pToremove);
+  let pSuccess= document.getElementById("pSuccess");
+  
+  if(pSuccess===null)
+       uspesnaKonekcijaPoruka(divToAdd);
+  
+  for(let i=0;i<navButtons.length;i++)
+     navButtons[i].disabled=false;
+ 
+   }
 
 napraviPoruku=(lx,ly,lz,ax,ay,az)=>{
   return new ROSLIB.Message({
@@ -105,6 +160,7 @@ nazad=()=> {
     // Use this property in case of continuous updates			
     continuous: true
   });
+  console.log(gridClient);
   // Scale the canvas to fit to the map
   gridClient.on('change', ()=> {
  

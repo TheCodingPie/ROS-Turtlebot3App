@@ -12,27 +12,28 @@
 		<script type="text/javascript" src="http://static.robotwebtools.org/ros2djs/current/ros2d.min.js"></script>
 		<script src="myscript.js"></script> 
 	</head>
-	<body>
+	<body onload="init();">
 		<div class="text-center">	
     	<h1>Hello ros!</h1>
 
 		<label class="badge badge-info  "> Adresa websocket servera:</label> <input class="btn-lg" type="text" id="websocket" value=""  placeholder="ip:port">
 		<button type="button" class="btn btn-primary btn-lg" onclick="poveziSeNaWebSocketServer()">Povezi se</button>
+		
 		<div id="connectionStatus" >
 		
 	 	</div>
 		<br>
 		<div class="btn-group-vertical ">
 		
-		<button type="button" class="btn btn-primary btn-lg" onclick="napred()">Napred</button>
+		<button  type="button" class="btn btn-primary btn-lg navButtons " onclick="napred()">Napred</button>
 		
-		<button type="button" class="btn btn-primary btn-lg" onclick="nazad()">Nazad</button>
-		<button type="button" class="btn btn-primary btn-lg" onclick="rotiraj()">Rotiraj</button>
-		<button type="button" class="btn btn-primary btn-lg" onclick="stop()">Stop</button>
+		<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="nazad()">Nazad</button>
+		<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="rotiraj()">Rotiraj</button>
+		<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="stop()">Stop</button>
 
 		<br>
 		</div>
-		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="prikaziMapu()">Prikazi mapu</button>
+		<button  type="button" class="btn btn-primary btn-lg btn-block navButtons" onclick="prikaziMapu()">Prikazi mapu</button>
 		<br>
     
 		<div id="map"></div>
