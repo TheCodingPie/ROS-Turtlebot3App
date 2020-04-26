@@ -1,9 +1,10 @@
  let ros;
- let MAP_HEIGHT = 700;
- let MAP_WIDTH = 800;
+ let MAP_HEIGHT = 600;
+ let MAP_WIDTH = 600;
  let navButtons=[];
+ let TOPIC;
 
- init=()=>{
+init=()=>{
     
     document.getElementById("websocket").value="";
     document.getElementById("websocket").innerHTML="";
@@ -13,14 +14,14 @@
  
  }
 
-  poveziSeNaWebSocketServer=()=> {
+poveziSeNaWebSocketServer=()=> {
 
     let webSocketAddress = document.getElementById("websocket").value;
     
-    if(webSocketAddress=="")
+    if(webSocketAddress == "")
     {
       let pToremove= document.getElementById("pDanger");
-      if(pToremove===null)
+      if(pToremove === null)
           praznoPoljePoruka();
       return;
     }      
@@ -38,18 +39,37 @@
     });
 
  }
+ 
 
- praznoPoljePoruka=()=>
+uspesnaKonekcija= ()=> {
+   let divToAdd= document.getElementById("connectionStatus");
+   let pToremove= document.getElementById("pDanger");
+   
+  if(pToremove !== null)
+       divToAdd.removeChild(pToremove);
+  let pSuccess= document.getElementById("pSuccess");
+  
+  if(pSuccess === null)
+       uspesnaKonekcijaPoruka(divToAdd);
+  
+  for(let i=0;i<navButtons.length;i++)
+     navButtons[i].disabled = false;
+  
+  TOPIC=uzmiTopic();
+   
+}
+
+praznoPoljePoruka=()=>
  {
    let divToAdd= document.getElementById("connectionStatus");
    let p = document.createElement("p");  
-   p.innerHTML="Unesite ip i port webSocket-a";
+   p.innerHTML = "Unesite ip i port webSocket-a";
    p.setAttribute('class', 'alert alert-danger');
    p.setAttribute('id', 'pDanger');
    divToAdd.appendChild(p);
  }
 
- uspesnaKonekcijaPoruka=(divToAdd)=>{
+uspesnaKonekcijaPoruka=(divToAdd)=>{
   let pError= document.getElementById("pError");
   if(pError)
     divToAdd.removeChild(pError);
@@ -60,7 +80,7 @@
    divToAdd.appendChild(p);
 
  }
- neuspesnaKonekcijaPoruka=()=>{
+neuspesnaKonekcijaPoruka=()=>{
    let pError= document.getElementById("pError");
    if(pError)
      return;
@@ -72,22 +92,6 @@
    divToAdd.appendChild(p);
 
  }
-
- uspesnaKonekcija= ()=> {
-   let divToAdd= document.getElementById("connectionStatus");
-   let pToremove= document.getElementById("pDanger");
-   
- if(pToremove!==null)
-       divToAdd.removeChild(pToremove);
-  let pSuccess= document.getElementById("pSuccess");
-  
-  if(pSuccess===null)
-       uspesnaKonekcijaPoruka(divToAdd);
-  
-  for(let i=0;i<navButtons.length;i++)
-     navButtons[i].disabled=false;
- 
-   }
 
 napraviPoruku=(lx,ly,lz,ax,ay,az)=>{
   return new ROSLIB.Message({
@@ -113,39 +117,35 @@ uzmiTopic=() => {
     });
  }
 
-napred=()=> {
-      let topic = uzmiTopic();
+napred=()=> {     
 
       let napred = napraviPoruku(0.3,0,0,0,0,0);
 
-      topic.publish(napred);
+      TOPIC.publish(napred);
   }
 
-nazad=()=> {
-    let topic = uzmiTopic();
+nazad=()=> {   
 
     let nazad = napraviPoruku(-0.3,0,0,0,0,0);
 
-    topic.publish(nazad);
+    TOPIC.publish(nazad);
   }
 
- rotiraj=()=> {
-      let topic = uzmiTopic();
-
+rotiraj=()=> {
+     
       let rotiraj = napraviPoruku(0,0,0,0,0,0.3);
 
-      topic.publish(rotiraj);
+      TOPIC.publish(rotiraj);
   }
 
- stop=()=> {
-      let topic = uzmiTopic();
+stop=()=> {
 
       let stop = napraviPoruku(0,0,0,0,0,0);
 
-      topic.publish(stop);
+      TOPIC.publish(stop);
   }
   
-  prikaziMapu=()=>{
+prikaziMapu=()=>{
   
   var viewer = new ROS2D.Viewer({
     divID : 'map',
@@ -160,16 +160,30 @@ nazad=()=> {
     // Use this property in case of continuous updates			
     continuous: true
   });
-  console.log(gridClient);
+ 
   // Scale the canvas to fit to the map
   gridClient.on('change', ()=> {
  
-
     viewer.scaleToDimensions(gridClient.currentGrid.width, gridClient.currentGrid.height);
     viewer.shift(gridClient.currentGrid.pose.position.x, gridClient.currentGrid.pose.position.y);
    
   });
 
  }
+
+sacuvajMapu=()=>{
+
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  window.scrollTo(0,0);
+  html2canvas(document.getElementById("map")).then(canvas => {
+   
+      a.href = canvas.toDataURL();
+      a.download = "mapa.png";
+      a.click();
+      document.body.removeChild(a);
+  });
+
+}
 
 
