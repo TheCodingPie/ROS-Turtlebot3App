@@ -17,7 +17,10 @@
     	<h1>Hello ros!</h1>
 
 		<label class="badge badge-info  "> Adresa websocket servera:</label> <input class="btn-lg" type="text" id="websocket" value=""  placeholder="ip:port">
-		<button type="button" class="btn btn-primary btn-lg" onclick="poveziSeNaWebSocketServer()">Povezi se</button>
+		<button type="button" class="btn btn-primary btn-lg" onclick="poveziSeNaWebSocket()">Povezi se</button>
+
+		<label class="badge badge-info  "> Brzina robota u m/s: (od 0 m/s do 0.26 m/s)</label> <input class="btn-lg" type="text" id="robotSpeed" value=""  placeholder="inicijalno 0.26">
+		<button type="button" class="btn btn-primary btn-lg" onclick="dodeliBrzinu()">Dodeli brzinu</button>
 		
 		<div id="connectionStatus" >
 		

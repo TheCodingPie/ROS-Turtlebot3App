@@ -3,26 +3,28 @@
  let MAP_WIDTH = 600;
  let navButtons=[];
  let TOPIC;
+ let ROBOTSPEED=0.26;
 
 init=()=>{
     
     document.getElementById("websocket").value="";
     document.getElementById("websocket").innerHTML="";
+    document.getElementById("robotSpeed").value="";
+    document.getElementById("robotSpeed").innerHTML="";
     navButtons=document.getElementsByClassName("navButtons");
     for(let i=0;i<navButtons.length;i++)
         navButtons[i].disabled=true;
  
  }
 
-poveziSeNaWebSocketServer=()=> {
+poveziSeNaWebSocket=()=> {
 
     let webSocketAddress = document.getElementById("websocket").value;
     
     if(webSocketAddress == "")
     {
-      let pToremove= document.getElementById("pDanger");
-      if(pToremove === null)
-          praznoPoljePoruka();
+     
+          praznoPoljePoruka("Unesite ip i port");
       return;
     }      
     ros = new ROSLIB.Ros({
@@ -39,6 +41,21 @@ poveziSeNaWebSocketServer=()=> {
     });
 
  }
+
+ dodeliBrzinu=()=> {
+
+  let speed = parseFloat(document.getElementById("robotSpeed").value);
+  
+  if(isNaN(speed) || speed < 0 || speed > 0.26)
+     praznoPoljePoruka("Proverite unos");
+  else
+    {
+    ROBOTSPEED=speed;
+    uspesnoPoruka("Uspesno ste dodelili brzinu: "+speed+ "m/s");
+    }
+
+
+}
  
 
 uspesnaKonekcija= ()=> {
@@ -50,7 +67,7 @@ uspesnaKonekcija= ()=> {
   let pSuccess= document.getElementById("pSuccess");
   
   if(pSuccess === null)
-       uspesnaKonekcijaPoruka(divToAdd);
+       uspesnoPoruka("Uspesna konekcija");
   
   for(let i=0;i<navButtons.length;i++)
      navButtons[i].disabled = false;
@@ -59,31 +76,30 @@ uspesnaKonekcija= ()=> {
    
 }
 
-praznoPoljePoruka=()=>
+praznoPoljePoruka=(poruka)=>
  {
    let divToAdd= document.getElementById("connectionStatus");
    let p = document.createElement("p");  
-   p.innerHTML = "Unesite ip i port webSocket-a";
+   p.innerHTML = poruka;
    p.setAttribute('class', 'alert alert-danger');
    p.setAttribute('id', 'pDanger');
    divToAdd.appendChild(p);
  }
 
-uspesnaKonekcijaPoruka=(divToAdd)=>{
+uspesnoPoruka=(poruka)=>{
+  let divToAdd= document.getElementById("connectionStatus");
   let pError= document.getElementById("pError");
   if(pError)
     divToAdd.removeChild(pError);
    let p = document.createElement("p");  
-   p.innerHTML="Uspesna konekcija";
+   p.innerHTML=poruka;
    p.setAttribute('class', 'alert alert-success');
    p.setAttribute('id', 'pSuccess');
    divToAdd.appendChild(p);
 
  }
 neuspesnaKonekcijaPoruka=()=>{
-   let pError= document.getElementById("pError");
-   if(pError)
-     return;
+   
    let divToAdd= document.getElementById("connectionStatus");
    let p = document.createElement("p");  
    p.innerHTML="Neuspesna konekcija, proverite ip i port";
@@ -119,21 +135,21 @@ uzmiTopic=() => {
 
 napred=()=> {     
 
-      let napred = napraviPoruku(0.3,0,0,0,0,0);
+      let napred = napraviPoruku(ROBOTSPEED,0,0,0,0,0);
 
       TOPIC.publish(napred);
   }
 
 nazad=()=> {   
 
-    let nazad = napraviPoruku(-0.3,0,0,0,0,0);
+    let nazad = napraviPoruku(-ROBOTSPEED,0,0,0,0,0);
 
     TOPIC.publish(nazad);
   }
 
 rotiraj=()=> {
      
-      let rotiraj = napraviPoruku(0,0,0,0,0,0.3);
+      let rotiraj = napraviPoruku(0,0,0,0,0,1);
 
       TOPIC.publish(rotiraj);
   }
