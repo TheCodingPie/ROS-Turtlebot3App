@@ -23,8 +23,7 @@ poveziSeNaWebSocket=()=> {
     
     if(webSocketAddress == "")
     {
-     
-          praznoPoljePoruka("Unesite ip i port");
+      praznoPoljePoruka("Unesite ip i port","connectionStatus");
       return;
     }      
     ros = new ROSLIB.Ros({
@@ -47,11 +46,11 @@ poveziSeNaWebSocket=()=> {
   let speed = parseFloat(document.getElementById("robotSpeed").value);
   
   if(isNaN(speed) || speed < 0 || speed > 0.26)
-     praznoPoljePoruka("Proverite unos");
+     praznoPoljePoruka("Proverite unos","speedStatus");
   else
     {
     ROBOTSPEED=speed;
-    uspesnoPoruka("Uspesno ste dodelili brzinu: "+speed+ "m/s");
+    uspesnoPoruka("Uspesno ste dodelili brzinu: "+speed+ "m/s","speedStatus");
     }
 
 
@@ -67,7 +66,7 @@ uspesnaKonekcija= ()=> {
   let pSuccess= document.getElementById("pSuccess");
   
   if(pSuccess === null)
-       uspesnoPoruka("Uspesna konekcija");
+       uspesnoPoruka("Uspesna konekcija","connectionStatus");
   
   for(let i=0;i<navButtons.length;i++)
      navButtons[i].disabled = false;
@@ -76,9 +75,9 @@ uspesnaKonekcija= ()=> {
    
 }
 
-praznoPoljePoruka=(poruka)=>
+praznoPoljePoruka=(poruka,divId)=>
  {
-   let divToAdd= document.getElementById("connectionStatus");
+   let divToAdd= document.getElementById(divId);
    let p = document.createElement("p");  
    p.innerHTML = poruka;
    p.setAttribute('class', 'alert alert-danger');
@@ -86,8 +85,8 @@ praznoPoljePoruka=(poruka)=>
    divToAdd.appendChild(p);
  }
 
-uspesnoPoruka=(poruka)=>{
-  let divToAdd= document.getElementById("connectionStatus");
+uspesnoPoruka=(poruka,divId)=>{
+  let divToAdd= document.getElementById(divId);
   let pError= document.getElementById("pError");
   if(pError)
     divToAdd.removeChild(pError);

@@ -14,32 +14,106 @@
 	</head>
 	<body onload="init();">
 		<div class="text-center">	
-    	<h1>Hello ros!</h1>
-
-		<label class="badge badge-info  "> Adresa websocket servera:</label> <input class="btn-lg" type="text" id="websocket" value=""  placeholder="ip:port">
-		<button type="button" class="btn btn-primary btn-lg" onclick="poveziSeNaWebSocket()">Povezi se</button>
-
-		<label class="badge badge-info  "> Brzina robota u m/s: (od 0 m/s do 0.26 m/s)</label> <input class="btn-lg" type="text" id="robotSpeed" value=""  placeholder="inicijalno 0.26">
-		<button type="button" class="btn btn-primary btn-lg" onclick="dodeliBrzinu()">Dodeli brzinu</button>
+		<h1>Hello ROS! </h1>
 		
-		<div id="connectionStatus" >
-		
-	 	</div>
-		<br>
-		<div class="btn-group-vertical ">
-		
-		<button  type="button" class="btn btn-primary btn-lg navButtons " onclick="napred()">Napred</button>
-		
-		<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="nazad()">Nazad</button>
-		<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="rotiraj()">Rotiraj</button>
-		<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="stop()">Stop</button>
-
-		<br>
-
-		</div>
-		<button  type="button" class="btn btn-primary btn-lg btn-block navButtons" onclick="prikaziMapu()">Prikazi mapu</button>
 		<div class="container">
 			<div class="row">
+
+				<div class="col-md-2">
+					
+				</div>
+				<div class="col-md-8" >
+					<label class="badge badge-info  "> Adresa websocket servera:</label> <input class="btn-lg" type="text" id="websocket" value=""  placeholder="ip:port">
+					<button type="button" class="btn btn-primary btn-lg" onclick="poveziSeNaWebSocket()">Povezi se</button>
+
+				</div>
+				<div class="col-md-2" >
+					
+				</div>
+			</div>
+		</div>
+		
+		<br>
+
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-3">
+					
+				</div>
+				<div class="col-md-6" id="connectionStatus">
+					
+				</div>
+				<div class="col-md-3">
+					
+				</div>
+			</div>
+		</div>
+		
+		<br>
+
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					
+				</div>
+				<div class="col-md-8" >
+					<label class="badge badge-info   "> Brzina robota u m/s: (od 0 m/s do 0.26 m/s)</label> <input class="btn-lg" type="text" id="robotSpeed" value=""  placeholder="inicijalno 0.26">
+					<button type="button" class="btn btn-primary btn-lg navButtons" onclick="dodeliBrzinu()">Dodeli brzinu</button>
+				</div>
+				<div class="col-md-2">
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-3">
+					
+				</div>
+				<div class="col-md-6" id="speedStatus">
+					
+				</div>
+				<div class="col-md-3">
+					
+				</div>
+			</div>
+		</div>
+	
+		<br>
+
+		<div class="container">
+			<div class="row">
+				<button  type="button" class="btn btn-primary btn-lg navButtons " onclick="napred()">Napred</button>
+				<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="nazad()">Nazad</button>
+				<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="rotiraj()">Rotiraj</button>
+				<button  type="button" class="btn btn-primary btn-lg navButtons" onclick="stop()">Stop</button>
+			</div>
+		</div>
+
+		<br>
+
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-3">
+					
+				</div>
+				<div class="col-md-6" >
+					<button  type="button" class="btn btn-primary btn-lg btn-block navButtons" onclick="prikaziMapu()">Prikazi mapu</button>
+				</div>
+				<div class="col-md-3">
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+
 				<div class="col-md-3">
 					
 				</div>
@@ -52,7 +126,24 @@
 			</div>
 		</div>
 		<br>
-		<button  type="button" class="btn btn-primary btn-lg btn-block navButtons" onclick="sacuvajMapu()">Sacuvaj mapu</button>
+
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-3">
+					
+				</div>
+				<div class="col-md-6" >
+					<button  type="button" class="btn btn-primary btn-lg btn-block navButtons" onclick="sacuvajMapu()">Sacuvaj mapu</button>
+				</div>
+				<div class="col-md-3">
+					
+				</div>
+			</div>
+		</div>
+
+
+		
 		</div>
   	</body>
 
