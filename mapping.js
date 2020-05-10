@@ -1,7 +1,6 @@
-
 import * as variables from './variables.js';
 
-window.prikaziMapu=()=>{
+window.showMap=()=>{
   
   var viewer = new ROS2D.Viewer({
     divID : 'map',
@@ -27,7 +26,7 @@ window.prikaziMapu=()=>{
 
  }
 
- window.sacuvajMapu=()=>{
+ window.saveMap=()=>{
 
   const a = document.createElement("a");
   document.body.appendChild(a);

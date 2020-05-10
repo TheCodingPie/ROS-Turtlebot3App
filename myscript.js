@@ -1,8 +1,7 @@
-import * as poruke from './poruke.js';
+import * as messages from './messages.js';
 import * as variables from './variables.js';
 
-
-window.init=()=>{
+window.initialize=()=>{
     
     document.getElementById("websocket").value="";
     document.getElementById("websocket").innerHTML="";
@@ -10,23 +9,22 @@ window.init=()=>{
     document.getElementById("robotSpeed").innerHTML="";
     variables.getNavButtons();
     variables.disableNavButtons();
- 
  }
 
- window.poveziSeNaWebSocket=()=> {
+ window.connectToWebSocket=()=> {
 
     let webSocketAddress = document.getElementById("websocket").value;
     
     if(webSocketAddress == "")
     {
-      poruke.praznoPoljePoruka("Unesite ip i port","connectionStatus");
+      messages.emptyInputField("Unesite ip i port","connectionStatus");
       return;
     }      
     variables.setRos( new ROSLIB.Ros({url : 'ws://' + webSocketAddress}));
 
-    variables.ROS.on('connection',uspesnaKonekcija);
+    variables.ROS.on('connection',successfulConnection);
 
-    variables.ROS.on('error', poruke.neuspesnaKonekcijaPoruka);
+    variables.ROS.on('error', messages.failedConnection);
 
     variables.ROS.on('close', ()=> {
       console.log('Zatvorena konekcija ka websocket serveru.');
@@ -34,24 +32,19 @@ window.init=()=>{
 
  }
 
- 
-
-function uspesnaKonekcija () {
+function successfulConnection () {
    let divToAdd= document.getElementById("connectionStatus");
    let pToremove= document.getElementById("pDanger");
    
   if(pToremove !== null)
        divToAdd.removeChild(pToremove);
-  let pSuccess= document.getElementById("pSuccess");
+  
+   let pSuccess= document.getElementById("pSuccess");
   
   if(pSuccess === null)
-       poruke.uspesnoPoruka("Uspesna konekcija","connectionStatus");
-  
-
-       variables.enableNavButtons();
-  
-  
-  
+       messages.success("Uspesna konekcija","connectionStatus");
+   
+   variables.enableNavButtons();
    variables.setTopic();
 }
 

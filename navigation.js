@@ -1,25 +1,24 @@
 import * as variables from './variables.js';
-import * as poruke from './poruke.js';
+import * as messages from './messages.js';
 
 
-window.dodeliBrzinu=()=> {
+window.setRobotSpeed=()=> {
 
     let speed = parseFloat(document.getElementById("robotSpeed").value);
     
     if(isNaN(speed) || speed < 0 || speed > 0.26)
-       poruke.praznoPoljePoruka("Proverite unos","speedStatus");
+       messages.emptyInputField("Proverite unos","speedStatus");
     else
       {
       
       variables.setRobotSpeed(speed);
-      poruke.uspesnoPoruka("Uspesno ste dodelili brzinu: "+speed+ "m/s","speedStatus");
+      messages.success("Uspesno ste dodelili brzinu: "+speed+ "m/s","speedStatus");
       }
   
   
   }
 
-
-  function napraviPoruku(lx,ly,lz,ax,ay,az){
+function getRosMessage(lx,ly,lz,ax,ay,az){
     return new ROSLIB.Message({
       linear : {
         x : lx,
@@ -35,30 +34,30 @@ window.dodeliBrzinu=()=> {
   
   }
 
-window.napred = ()=>{     
+window.forward = ()=>{     
 
-      let napred = napraviPoruku(variables.ROBOTSPEED,0,0,0,0,0);
+      let forward = getRosMessage(variables.ROBOTSPEED,0,0,0,0,0);
 
-      variables.TOPIC.publish(napred);
+      variables.TOPIC.publish(forward);
   }
 
-  window.nazad= ()=> {   
+  window.backward= ()=> {   
 
-    let nazad = napraviPoruku(-variables.ROBOTSPEED,0,0,0,0,0);
+    let backward = getRosMessage(-variables.ROBOTSPEED,0,0,0,0,0);
 
-    variables.TOPIC.publish(nazad);
+    variables.TOPIC.publish(backward);
   }
 
-  window.rotiraj= () =>{
+  window.rotate= () =>{
      
-      let rotiraj = napraviPoruku(0,0,0,0,0,1);
+      let rotate = getRosMessage(0,0,0,0,0,1);
 
-      variables.TOPIC.publish(rotiraj);
+      variables.TOPIC.publish(rotate);
   }
 
   window.stop =() =>{
 
-      let stop = napraviPoruku(0,0,0,0,0,0);
+      let stop = getRosMessage(0,0,0,0,0,0);
 
       variables.TOPIC.publish(stop);
   }
