@@ -1,4 +1,4 @@
-let ROS;
+ let ROS;
  let MAP_HEIGHT = 600;
  let MAP_WIDTH = 600;
  let NAV_BUTTONS=[];

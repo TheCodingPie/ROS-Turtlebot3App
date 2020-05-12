@@ -1,3 +1,5 @@
+import * as variables from './variables.js';
+
  function emptyInputField(message,divId)
  {
     let divToAdd= document.getElementById(divId);
@@ -32,4 +34,21 @@ function failedConnection(){
 
  }
 
-export { emptyInputField, success, failedConnection };
+ function successfulConnection () {
+  
+   let divToAdd= document.getElementById("connectionStatus");
+   let pToremove= document.getElementById("pDanger");
+   
+  if(pToremove !== null)
+       divToAdd.removeChild(pToremove);
+  
+   let pSuccess= document.getElementById("pSuccess");
+  
+  if(pSuccess === null)
+       success("Uspesna konekcija","connectionStatus");
+   
+   variables.enableNavButtons();
+   variables.setTopic();
+}
+
+export { emptyInputField, success, failedConnection, successfulConnection };

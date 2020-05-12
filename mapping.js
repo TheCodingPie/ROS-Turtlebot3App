@@ -8,15 +8,15 @@ window.showMap=()=>{
     height : variables.MAP_HEIGHT
   });
 
-  // Setup the map client.
+  
   var gridClient = new ROS2D.OccupancyGridClient({
     ros : variables.ROS,
     rootObject : viewer.scene,
-    // Use this property in case of continuous updates			
+    // da bi stalno bila updatovana mapa		
     continuous: true
   });
  
-  // Scale the canvas to fit to the map
+  // prikaz mape
   gridClient.on('change', ()=> {
  
     viewer.scaleToDimensions(gridClient.currentGrid.width, gridClient.currentGrid.height);

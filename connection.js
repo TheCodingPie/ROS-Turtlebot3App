@@ -22,7 +22,7 @@ window.initialize=()=>{
     }      
     variables.setRos( new ROSLIB.Ros({url : 'ws://' + webSocketAddress}));
 
-    variables.ROS.on('connection',successfulConnection);
+    variables.ROS.on('connection',messages.successfulConnection);
 
     variables.ROS.on('error', messages.failedConnection);
 
@@ -31,20 +31,4 @@ window.initialize=()=>{
     });
 
  }
-
-function successfulConnection () {
-   let divToAdd= document.getElementById("connectionStatus");
-   let pToremove= document.getElementById("pDanger");
-   
-  if(pToremove !== null)
-       divToAdd.removeChild(pToremove);
-  
-   let pSuccess= document.getElementById("pSuccess");
-  
-  if(pSuccess === null)
-       messages.success("Uspesna konekcija","connectionStatus");
-   
-   variables.enableNavButtons();
-   variables.setTopic();
-}
 
