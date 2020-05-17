@@ -50,7 +50,7 @@ window.forward = ()=>{
 
   window.rotate= () =>{
      
-      let rotate = getRosMessage(0,0,0,0,0,1);
+      let rotate = getRosMessage(0,0,0,0,0,0.5);
 
       variables.TOPIC.publish(rotate);
   }

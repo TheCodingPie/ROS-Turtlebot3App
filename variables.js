@@ -7,7 +7,7 @@
 
  function setRos(ros){
      ROS=ros;
-    }
+   }
  
  function getNavButtons(){
   
